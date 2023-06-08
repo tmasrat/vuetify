@@ -58,6 +58,7 @@ export const makeVBtnProps = propsFactory({
   appendIcon: IconValue,
 
   block: Boolean,
+  slim: Boolean,
   stacked: Boolean,
 
   ripple: {
@@ -165,6 +166,7 @@ export const VBtn = genericComponent<VBtnSlots>()({
               'v-btn--flat': props.flat,
               'v-btn--icon': !!props.icon,
               'v-btn--loading': props.loading,
+              'v-btn--slim': props.slim,
               'v-btn--stacked': props.stacked,
             },
             themeClasses.value,
