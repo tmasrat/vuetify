@@ -4,35 +4,16 @@ import { useCosmic } from '@/composables/cosmic'
 // Utilities
 import { defineStore } from 'pinia'
 
-// Types
-interface Image {
-  src: string
-  altText: string | null
-}
-
-interface VariantOption {
-  name: string
-  value: string
-}
-
-interface Variant {
-  id: string
-  title: string
-  price: string
-  available: boolean
-  selectedOptions: VariantOption[]
-}
-
 interface Product {
-  id: string
+  href: string
   title: string
-  description: string
-  images: Image[]
-  options: unknown[] // type of options not provided in given JSON data
-  variants: Variant[]
-  vendor: string
-  productType: string
-  onlineStoreUrl: string
+  src: string
+  price: number
+}
+
+interface Vendor {
+  name: string
+  products: Product[]
 }
 
 export type State = {
@@ -41,26 +22,35 @@ export type State = {
 
 export const useShopifyStore = defineStore('shopify', {
   state: (): State => ({
-    products: [],
+    vendors: [],
   }),
 
   actions: {
     async fetch () {
-      if (this.products.length) return
+      if (this.vendors.length) return
 
       const { bucket } = useCosmic()
 
       const { objects = [] } = (
         await bucket?.objects
-          .find({ type: 'products' })
-          .props('slug,title,metadata')
-          .sort('-created_at')
+          .find({ type: 'vendors' })
+          .props('metadata')
+          .sort('created_at')
           .limit(1)
       ) || {}
 
-      this.products = objects?.length
-        ? JSON.parse(objects[0].metadata.products)
-        : []
+      if (objects?.length) {
+        this.vendors = objects[0].metadata.vendors
+      }
+    },
+  },
+
+  getters: {
+    byVendor: state => {
+      return state.vendors.reduce((acc, vendor) => {
+        acc[vendor.name] = vendor
+        return acc
+      }, {})
     },
   },
 })

@@ -1,5 +1,4 @@
 ---
-fluid: true
 meta:
   nav: Vuetify Themes
   title: Free & Premium Vuetify themes
@@ -12,7 +11,20 @@ related:
 ---
 
 <script setup>
-  import PremiumThemes from '@/components/doc/PremiumThemes.vue'
+  // Components
+  import ThemeVendor from '@/components/doc/ThemeVendor.vue'
+
+  // Utilities
+  import { onMounted } from 'vue'
+
+  // Stores
+  import { useShopifyStore } from '@/store/shopify'
+
+  const store = useShopifyStore()
+
+  onMounted(() => {
+    store.fetch()
+  })
 </script>
 
 # Vuetify Themes
@@ -21,4 +33,26 @@ Vuetify offers both **free** and **premium** pre-made themes designed to get you
 
 ---
 
-<premium-themes />
+## Vuetify
+
+The following themes are created and maintained by Vuetify. They are available for free through the Vuetify store.
+
+<ThemeVendor name="Vuetify" />
+
+----
+
+<br>
+
+## Theme Selection
+
+Theme Selection offers an array of visually appealing, user-friendly UI kits and themes. Catering to a variety of platforms, they deliver efficient design solutions for a streamlined digital experience.
+
+<ThemeVendor name="ThemeSelection" />
+
+<br>
+
+::: success
+
+Want to feature your themes here? [Contact us!](mailto:hello@vuetifyjs.com?subject=Theme+affiliation) to learn more about becoming a vendor.
+
+:::
