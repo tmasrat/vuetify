@@ -1,4 +1,5 @@
 // Styles
+import { useBackgroundColor } from '@/composables/color'
 import './VPicker.sass'
 
 // Components
@@ -20,7 +21,7 @@ export const makeVPickerProps = propsFactory({
   landscape: Boolean,
   title: String,
 
-  ...omit(makeVSheetProps(), ['color']),
+  ...makeVSheetProps(),
 }, 'VPicker')
 
 export const VPicker = genericComponent<VPickerSlots>()({
@@ -29,6 +30,8 @@ export const VPicker = genericComponent<VPickerSlots>()({
   props: makeVPickerProps(),
 
   setup (props, { slots }) {
+    const { backgroundColorClasses, backgroundColorStyles} = useBackgroundColor(props, 'color')
+
     useRender(() => {
       const [sheetProps] = VSheet.filterProps(props)
       const hasTitle = !!(props.title || slots.title)
@@ -36,6 +39,7 @@ export const VPicker = genericComponent<VPickerSlots>()({
       return (
         <VSheet
           { ...sheetProps }
+          color={undefined}
           class={[
             'v-picker',
             {
@@ -47,7 +51,11 @@ export const VPicker = genericComponent<VPickerSlots>()({
           style={ props.style }
         >
           { hasTitle && (
-            <VPickerTitle key="picker-title">
+            <VPickerTitle
+              key="picker-title"
+              class={ backgroundColorClasses.value }
+              style={ backgroundColorStyles.value }
+            >
               { slots.title?.() ?? props.title }
             </VPickerTitle>
           )}

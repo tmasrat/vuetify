@@ -268,6 +268,9 @@ function format (value: Date, formatString: string, locale: string): string {
     case 'dayOfMonth':
       options = { day: 'numeric' }
       break
+    case 'shortDate':
+      options = { day: 'numeric', month: 'short' }
+      break
     default:
       options = { timeZone: 'UTC', timeZoneName: 'short' }
   }
@@ -283,6 +286,7 @@ function addDays (date: Date, amount: number) {
 
 function addMonths (date: Date, amount: number) {
   const d = new Date(date)
+  d.setDate(1)
   d.setMonth(d.getMonth() + amount)
   return d
 }

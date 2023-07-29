@@ -41,11 +41,11 @@ export const makeVDatePickerProps = propsFactory({
   },
   cancelText: {
     type: String,
-    default: '$vuetify.datePicker.cancel',
+    default: '$vuetify.picker.cancel',
   },
   okText: {
     type: String,
-    default: '$vuetify.datePicker.ok',
+    default: '$vuetify.picker.ok',
   },
   inputText: {
     type: String,
@@ -79,7 +79,7 @@ export const VDatePicker = genericComponent<VDatePickerSlots>()({
     const adapter = useDate()
     const { t } = useLocale()
 
-    const { model, displayDate, viewMode, inputMode } = createDatePicker(props)
+    const { model, displayDate, viewMode, inputMode } = createDatePicker(props, false)
 
     const isReversing = ref(false)
 
@@ -126,6 +126,7 @@ export const VDatePicker = genericComponent<VDatePickerSlots>()({
     useRender(() => {
       const [pickerProps] = VPicker.filterProps(props)
       const [datePickerControlsProps] = VDatePickerControls.filterProps(props)
+      const [dateRangePickerHeaderProps] = VDatePickerHeader.filterProps(props)
       const [datePickerMonthProps] = VDatePickerMonth.filterProps(props)
       const [datePickerYearsProps] = VDatePickerYears.filterProps(props)
 
@@ -143,6 +144,7 @@ export const VDatePicker = genericComponent<VDatePickerSlots>()({
             header: () => slots.header?.(headerSlotProps.value) ?? (
               <VDatePickerHeader
                 key="header"
+                { ...dateRangePickerHeaderProps }
                 { ...headerSlotProps.value }
               />
             ),
