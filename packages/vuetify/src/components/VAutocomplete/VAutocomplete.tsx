@@ -224,12 +224,8 @@ export const VAutocomplete = genericComponent<new <
         menu.value = false
       }
 
-      if (['Enter', 'Escape', 'Tab'].includes(e.key)) {
-        if (highlightFirst.value && ['Enter', 'Tab'].includes(e.key)) {
-          select(filteredItems.value[0])
-        }
-
-        isPristine.value = true
+      if (highlightFirst.value && ['Enter', 'Tab'].includes(e.key)) {
+        select(filteredItems.value[0])
       }
 
       if (e.key === 'ArrowDown' && highlightFirst.value) {
@@ -408,6 +404,7 @@ export const VAutocomplete = genericComponent<new <
             },
             props.class,
           ]}
+          roleType="combobox"
           style={ props.style }
           readonly={ props.readonly }
           placeholder={ isDirty ? undefined : props.placeholder }
@@ -574,6 +571,7 @@ export const VAutocomplete = genericComponent<new <
                 { props.menuIcon ? (
                   <VIcon
                     class="v-autocomplete__menu-icon"
+                    aria-hidden="true"
                     icon={ props.menuIcon }
                     onMousedown={ onMousedownMenuIcon }
                     onClick={ noop }
