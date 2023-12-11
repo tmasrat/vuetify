@@ -91,7 +91,7 @@ export const makeVChipProps = propsFactory({
 
   onClick: EventProp<[MouseEvent]>(),
   onClickOnce: EventProp<[MouseEvent]>(),
-  onCloseChip:  EventProp<[MouseEvent]>(),
+  onCloseChip: EventProp<[MouseEvent]>(),
 
   ...makeBorderProps(),
   ...makeComponentProps(),
