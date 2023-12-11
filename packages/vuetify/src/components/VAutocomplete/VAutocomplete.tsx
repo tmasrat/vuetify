@@ -294,7 +294,6 @@ export const VAutocomplete = genericComponent<new <
     }
 
     function onChange (e: Event) {
-      console.log('update', model.value, e)
       if (matchesSelector(vTextFieldRef.value, ':autofill') || matchesSelector(vTextFieldRef.value, ':-webkit-autofill')) {
         const item = items.value.find(item => item.title === (e.target as HTMLInputElement).value)
         if (item) {
@@ -569,7 +568,7 @@ export const VAutocomplete = genericComponent<new <
                             tabindex="0"
                             text={ item.title }
                             disabled={ item.props.disabled }
-                            onCloseChip ={ onChipClose }
+                            onCloseChip={ onChipClose }
                             { ...slotProps }
                           />
                         ) : (

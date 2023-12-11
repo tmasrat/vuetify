@@ -459,7 +459,7 @@ export const VSelect = genericComponent<new <
                             tabindex="0"
                             text={ item.title }
                             disabled={ item.props.disabled }
-                            onCloseChip ={ onChipClose }
+                            onCloseChip={ onChipClose }
                             { ...slotProps }
                           />
                         ) : (
