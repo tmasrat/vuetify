@@ -91,6 +91,7 @@ export const makeVChipProps = propsFactory({
 
   onClick: EventProp<[MouseEvent]>(),
   onClickOnce: EventProp<[MouseEvent]>(),
+  onCloseChip: EventProp<[MouseEvent]>(),
 
   ...makeBorderProps(),
   ...makeComponentProps(),
@@ -328,7 +329,7 @@ export const VChip = genericComponent<VChipSlots>()({
           )}
 
           { hasClose && (
-            <div
+            <button
               key="close"
               class="v-chip__close"
               { ...closeProps.value }
@@ -338,6 +339,7 @@ export const VChip = genericComponent<VChipSlots>()({
                   key="close-icon"
                   icon={ props.closeIcon }
                   size="x-small"
+                  onClick={ props.onCloseChip }
                 />
               ) : (
                 <VDefaultsProvider
@@ -351,7 +353,7 @@ export const VChip = genericComponent<VChipSlots>()({
                   v-slots:default={ slots.close }
                 />
               )}
-            </div>
+            </button>
           )}
         </Tag>
       )
