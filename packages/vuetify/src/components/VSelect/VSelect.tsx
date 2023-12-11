@@ -238,7 +238,7 @@ export const VSelect = genericComponent<new <
         model.value = [item]
       }
     }
-    function select (item: ListItem) {
+    function select (item: ListItem, closing: string) {
       if (props.multiple) {
         const index = model.value.findIndex(selection => props.valueComparator(selection.value, item.value))
 
@@ -251,6 +251,9 @@ export const VSelect = genericComponent<new <
         }
       } else {
         model.value = [item]
+        if (closing) {
+          model.value = []
+        }
         menu.value = false
       }
     }
@@ -421,7 +424,7 @@ export const VSelect = genericComponent<new <
                     e.stopPropagation()
                     e.preventDefault()
 
-                    select(item)
+                    select(item, 'closing')
                   }
 
                   const slotProps = {
@@ -453,8 +456,10 @@ export const VSelect = genericComponent<new <
                             key="chip"
                             closable={ props.closableChips }
                             size="small"
+                            tabindex="0"
                             text={ item.title }
                             disabled={ item.props.disabled }
+                            onCloseChip ={ onChipClose }
                             { ...slotProps }
                           />
                         ) : (
