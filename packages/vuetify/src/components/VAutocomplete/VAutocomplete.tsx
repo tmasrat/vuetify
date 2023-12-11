@@ -560,8 +560,10 @@ export const VAutocomplete = genericComponent<new <
                             key="chip"
                             closable={ props.closableChips }
                             size="small"
+                            tabindex="0"
                             text={ item.title }
                             disabled={ item.props.disabled }
+                            onCloseChip={ onChipClose }
                             { ...slotProps }
                           />
                         ) : (
