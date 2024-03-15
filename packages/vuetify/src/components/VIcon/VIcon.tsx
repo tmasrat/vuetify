@@ -74,6 +74,7 @@ export const VIcon = genericComponent()({
           ]}
           role={ attrs.onClick ? 'button' : undefined }
           aria-hidden={ !attrs.onClick }
+          tabindex={ attrs.onClick ? '0' : undefined }
         >
           { slotValue }
         </iconData.value.component>

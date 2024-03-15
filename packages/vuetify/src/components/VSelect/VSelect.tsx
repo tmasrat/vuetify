@@ -252,7 +252,7 @@ export const VSelect = genericComponent<new <
         model.value = [item]
       }
     }
-    function select (item: ListItem) {
+    function select (item: ListItem, closing: boolean) {
       if (props.multiple) {
         const index = model.value.findIndex(selection => props.valueComparator(selection.value, item.value))
 
@@ -265,6 +265,9 @@ export const VSelect = genericComponent<new <
         }
       } else {
         model.value = [item]
+        if (closing) {
+          model.value = []
+        }
         menu.value = false
       }
     }
@@ -286,7 +289,7 @@ export const VSelect = genericComponent<new <
       else if (matchesSelector(vTextFieldRef.value, ':autofill') || matchesSelector(vTextFieldRef.value, ':-webkit-autofill')) {
         const item = items.value.find(item => item.title === v)
         if (item) {
-          select(item)
+          select(item, false)
         }
       } else if (vTextFieldRef.value) {
         vTextFieldRef.value.value = ''
@@ -407,7 +410,7 @@ export const VSelect = genericComponent<new <
                           const itemProps = mergeProps(item.props, {
                             ref: itemRef,
                             key: index,
-                            onClick: () => select(item),
+                            onClick: () => select(item, false),
                           })
 
                           return slots.item?.({
@@ -453,7 +456,7 @@ export const VSelect = genericComponent<new <
                     e.stopPropagation()
                     e.preventDefault()
 
-                    select(item)
+                    select(item, true)
                   }
 
                   const slotProps = {
@@ -485,8 +488,10 @@ export const VSelect = genericComponent<new <
                             key="chip"
                             closable={ props.closableChips }
                             size="small"
+                            tabindex="0"
                             text={ item.title }
                             disabled={ item.props.disabled }
+                            onCloseChip={ onChipClose }
                             { ...slotProps }
                           />
                         ) : (
