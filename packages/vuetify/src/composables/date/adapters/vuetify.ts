@@ -305,8 +305,7 @@ function format (
       options = { month: 'short' }
       break
     case 'dayOfMonth':
-      options = { day: 'numeric' }
-      break
+      return new Intl.NumberFormat(locale).format(newDate.getDate())
     case 'shortDate':
       options = { year: '2-digit', month: 'numeric', day: 'numeric' }
       break
@@ -432,11 +431,27 @@ function getDiff (date: Date, comparing: Date | string, unit?: string) {
   const d = new Date(date)
   const c = new Date(comparing)
 
-  if (unit === 'month') {
-    return d.getMonth() - c.getMonth() + (d.getFullYear() - c.getFullYear()) * 12
+  switch (unit) {
+    case 'years':
+      return d.getFullYear() - c.getFullYear()
+    case 'quarters':
+      return Math.floor((d.getMonth() - c.getMonth() + (d.getFullYear() - c.getFullYear()) * 12) / 4)
+    case 'months':
+      return d.getMonth() - c.getMonth() + (d.getFullYear() - c.getFullYear()) * 12
+    case 'weeks':
+      return Math.floor((d.getTime() - c.getTime()) / (1000 * 60 * 60 * 24 * 7))
+    case 'days':
+      return Math.floor((d.getTime() - c.getTime()) / (1000 * 60 * 60 * 24))
+    case 'hours':
+      return Math.floor((d.getTime() - c.getTime()) / (1000 * 60 * 60))
+    case 'minutes':
+      return Math.floor((d.getTime() - c.getTime()) / (1000 * 60))
+    case 'seconds':
+      return Math.floor((d.getTime() - c.getTime()) / 1000)
+    default: {
+      return d.getTime() - c.getTime()
+    }
   }
-
-  return Math.floor((d.getTime() - c.getTime()) / (1000 * 60 * 60 * 24))
 }
 
 function setHours (date: Date, count: number) {
@@ -464,7 +479,7 @@ function setYear (date: Date, year: number) {
 }
 
 function startOfDay (date: Date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0)
 }
 
 function endOfDay (date: Date) {
